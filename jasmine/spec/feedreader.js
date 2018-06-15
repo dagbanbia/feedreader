@@ -9,8 +9,7 @@
  * to ensure they don't run until the DOM is ready.
  */
 $(function() {
-    let entriesStart,
-        entriesEnd;
+    
     /* This is the first test suite - a test suite just contains
     * a related set of tests. This suite is all about the RSS
     * feeds definitions, the allFeeds variable in our application.
@@ -59,13 +58,15 @@ $(function() {
 
     describe('The menu',function(){
 
+        let $body = $('.body');
+
         /* This test ensures that the menu element is hidden by default.
          *  It is achieve by checking if 
          * the body element has the 'menu-hidden' class.
          */
 
          it('The menu element should be hidden by default',function(){
-            expect($('body').hasClass('menu-hidden')).toBeTruthy();
+            expect($('body').hasClass('menu-hidden')).toBe(true);
          });
 
          /* This test ensures that menu changes
@@ -79,12 +80,12 @@ $(function() {
               // When the menu icon is clicked we expect that the 'menu-hidden' class to be removed
 
             $(".menu-icon-link").trigger('click'); 
-            expect($("body").hasClass('menu-hidden')).toBe(false);
+            expect($body.hasClass('menu-hidden')).toBe(false);
 
             // When the menu icon is clicked again we expect that the 'menu-hidden' class to be applied
 
             $(".menu-icon-link").trigger('click'); 
-            expect($("body").hasClass('menu-hidden')).toBe(true);
+            expect($body.hasClass('menu-hidden')).toBe(true);
         });
     })
 
@@ -119,24 +120,35 @@ $(function() {
            newFeed;
 
         beforeEach(function(done){
+            // first async call
             loadFeed(0,function(){
+                //store  initialFeed value
                 initialFeed = $('.feed').text();
                  done()
-            });
 
-            loadFeed(1,function(){
-                    newFeed = $('.feed').text();
-                    done();
-            });
-            
+            })
+
         });
 
         /* This test  ensures that when a new feed is loaded
          * by the loadFeed function , the content actually changes.
          */
 
-         it('new feed is different to old one',function(){
-            expect(newFeed).not.toBe(initialFeed);
-         });
+         it('ensures the content changes when feed is loaded',function(done){
+            // only happens once first loadFeed function has returned
+            loadFeed(1,function(){
+                //store newFeed value
+                newFeed = $('.feed').text();
+                expect(initialFeed).not.toBe(newFeed);
+                done();
+
+            });
+
+        });
+
     });
+
+
+
+       
 }());
