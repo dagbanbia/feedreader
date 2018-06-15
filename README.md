@@ -7,7 +7,7 @@ Therefore the purpose of the project is to complete the already started testing 
 
 # How to run this project?
 
-You could simply clone or download this repository and run the "index.html" file
+You could simply clone or download this repository at [this link](https://github.com/dagbanbia/feedreader.git) and run the "index.html" file
 
 ## References:
 
